@@ -1,6 +1,6 @@
 # Deploy – Vercel
 
-> Live URL: https://apps-rho-vert.vercel.app
+> Live URL: https://friluftskameratene.vercel.app
 
 ## Oppsett
 
