@@ -1,7 +1,25 @@
-# Lokale miljøvariabler – aldri commit
+# Miljøvariabler
 .env
 .env.local
 .env.*.local
+
+# Next.js
+.next/
+out/
+build/
+.vercel
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
 
 # OS
 .DS_Store
