@@ -32,3 +32,11 @@ Thumbs.db
 
 # MCP runtime
 .playwright-mcp/
+
+# Supabase CLI (lokale arbeidsfiler — migrasjoner under supabase/migrations/ committes)
+supabase/.temp/
+supabase/.branches/
+supabase/.env
+
+# Codex CLI
+.codex/
