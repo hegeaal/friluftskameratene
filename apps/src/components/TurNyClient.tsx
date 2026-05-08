@@ -72,7 +72,7 @@ export default function TurNyClient() {
 
         <hr className="border-gray-100" />
 
-        <TripRecommendations activityLevel={activityLevel} onSelect={handlePlaceSelect} />
+        <TripRecommendations activityLevel={activityLevel} destination={destination} onSelect={handlePlaceSelect} />
 
         <div className="mt-auto">
           <button
