@@ -54,7 +54,7 @@ describe("calculateSettlement", () => {
     );
 
     const total = debts.reduce((s, d) => s + d.amount, 0);
-    expect(total).toBeCloseTo(66.67, 1);
+    expect(total).toBeCloseTo(66.66, 2);
     expect(debts.every((d) => d.to === "Ola")).toBe(true);
   });
 });
