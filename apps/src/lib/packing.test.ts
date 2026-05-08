@@ -34,4 +34,32 @@ describe("applyWeatherTriggers", () => {
 
     expect(result.filter((i) => i.name.toLowerCase().includes("regntøy"))).toHaveLength(1);
   });
+
+  it("triggers regntøy at exactly the 0.5mm threshold", () => {
+    const result = applyWeatherTriggers(
+      [],
+      [{ date: "2026-05-10", precipitationMm: 0.5 }],
+    );
+
+    expect(result.some((i) => i.name === "Regntøy")).toBe(true);
+  });
+
+  it("does not trigger regntøy just below the threshold", () => {
+    const result = applyWeatherTriggers(
+      [],
+      [{ date: "2026-05-10", precipitationMm: 0.49 }],
+    );
+
+    expect(result).toEqual([]);
+  });
+
+  it("returns a new array reference even when nothing changes", () => {
+    const base = [{ name: "Sovepose" }];
+    const result = applyWeatherTriggers(base, [
+      { date: "2026-05-10", precipitationMm: 0 },
+    ]);
+
+    expect(result).toEqual(base);
+    expect(result).not.toBe(base);
+  });
 });

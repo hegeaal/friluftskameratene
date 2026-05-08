@@ -15,12 +15,12 @@ export function applyWeatherTriggers(
   forecast: WeatherDay[],
 ): PackingItem[] {
   const rainyDay = forecast.find((d) => d.precipitationMm >= RAIN_THRESHOLD_MM);
-  if (!rainyDay) return baseList;
+  if (!rainyDay) return [...baseList];
 
   const alreadyHasRainGear = baseList.some((item) =>
     item.name.toLowerCase().includes("regntøy"),
   );
-  if (alreadyHasRainGear) return baseList;
+  if (alreadyHasRainGear) return [...baseList];
 
   return [
     ...baseList,
