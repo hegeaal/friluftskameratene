@@ -1,9 +1,14 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-const TurNyClient = dynamic(() => import("@/components/TurNyClient"), { ssr: false });
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function NewTripPage() {
-  return <TurNyClient />;
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace(`/tur/${crypto.randomUUID()}`);
+  }, [router]);
+
+  return null;
 }

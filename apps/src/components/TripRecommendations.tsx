@@ -166,7 +166,7 @@ export default function TripRecommendations({ activityLevel, destination, onSele
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="Søk i ruter..."
-        className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+        className="w-full px-3 py-1.5 border border-gray-200 rounded-lg text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
       />
 
       {/* Duration filter */}
