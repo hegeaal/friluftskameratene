@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from "react-leaflet";
-import type { Map as LeafletMap } from "leaflet";
+import UTnoLayer from "./UTnoLayer";
 
 interface Destination {
   name: string;
@@ -55,6 +55,7 @@ export default function MapPicker({ destination, onSelect, flyToRef }: MapPicker
       />
       <ClickHandler onSelect={onSelect} />
       <FlyToController flyToRef={flyToRef} />
+      <UTnoLayer center={destination ?? { lat: 62.0, lon: 9.8 }} />
       {destination && <Marker position={[destination.lat, destination.lon]} />}
     </MapContainer>
   );
