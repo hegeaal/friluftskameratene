@@ -70,6 +70,10 @@ export default function TurNyClient() {
 
         <ActivitySelector value={activityLevel} onChange={setActivityLevel} />
 
+        <hr className="border-gray-100" />
+
+        <TripRecommendations onSelect={handlePlaceSelect} />
+
         <div className="mt-auto">
           <button
             onClick={handleFindTrips}
