@@ -7,6 +7,7 @@ import L from "leaflet";
 import MapPicker from "./MapPicker";
 import PlaceSearch from "./PlaceSearch";
 import ActivitySelector from "./ActivitySelector";
+import TripRecommendations from "./TripRecommendations";
 
 // Fix Leaflet default icon in Next.js/Webpack
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -68,6 +69,10 @@ export default function TurNyClient() {
         )}
 
         <ActivitySelector value={activityLevel} onChange={setActivityLevel} />
+
+        <hr className="border-gray-100" />
+
+        <TripRecommendations onSelect={handlePlaceSelect} />
 
         <div className="mt-auto">
           <button
