@@ -1,0 +1,2 @@
+# friluftskameratene
+Trip planning app
