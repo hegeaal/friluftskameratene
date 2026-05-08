@@ -5,9 +5,18 @@
       "Bash(git pull *)",
       "Bash(gh issue *)",
       "Bash(gh api *)",
+      "Bash(gh pr *)",
+      "Bash(gh repo *)",
+      "Bash(npm test *)",
+      "Bash(supabase --version)",
       "Bash(supabase orgs *)",
       "Bash(supabase projects *)",
-      "Bash(vercel env *)"
+      "Bash(vercel --version)",
+      "Bash(vercel env *)",
+      "Bash(vercel whoami *)",
+      "Bash(vercel teams *)",
+      "Read(//Users/yngvarjohnsen/**)",
+      "Read(//Users/yngvarjohnsen/.config/claude/**)"
     ]
   }
 }
