@@ -74,8 +74,8 @@ export default function UTnoLayer({ center }: UTnoLayerProps) {
         }
       }`),
       queryUtno(`{
-        routes(paging: { first: 30 }) {
-          edges { node { id name geojson } }
+        routesNear(input: { coordinates: [${lon}, ${lat}], maxDistance: 30000 }) {
+          route { id name geojson }
         }
       }`),
     ]).then(([cabinsData, routesData]) => {
@@ -84,7 +84,11 @@ export default function UTnoLayer({ center }: UTnoLayerProps) {
           ?.map((edge: { cabin: Cabin }) => edge.cabin)
           .filter((c: Cabin | null): c is Cabin => Boolean(c)) ?? []
       );
-      setRoutes(routesData.data?.routes?.edges?.map((e: { node: Route }) => e.node) ?? []);
+      setRoutes(
+        routesData.data?.routesNear
+          ?.map((edge: { route: Route }) => edge.route)
+          .filter((r: Route | null): r is Route => Boolean(r)) ?? []
+      );
     });
   }, [center.lat, center.lon]);
 
