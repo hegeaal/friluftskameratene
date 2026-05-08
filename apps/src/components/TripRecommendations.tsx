@@ -12,7 +12,6 @@ interface Route {
   id: string;
   name: string;
   distance: number | null;
-  duration: number | null;
   geojson: { type: string; coordinates: number[][] } | null;
 }
 
@@ -34,11 +33,6 @@ function formatDistance(meters: number | null): string {
   return `${meters} m`;
 }
 
-function formatDuration(minutes: number | null): string {
-  if (!minutes) return "";
-  if (minutes >= 60) return `${Math.round(minutes / 60)} t`;
-  return `${minutes} min`;
-}
 
 export default function TripRecommendations({ onSelect }: TripRecommendationsProps) {
   const [routes, setRoutes] = useState<Route[]>([]);
@@ -56,7 +50,6 @@ export default function TripRecommendations({ onSelect }: TripRecommendationsPro
                 id
                 name
                 distance
-                duration
                 geojson
               }
             }
@@ -97,9 +90,7 @@ export default function TripRecommendations({ onSelect }: TripRecommendationsPro
       )}
       <ul className="space-y-1.5">
         {routes.map((route) => {
-          const meta = [formatDistance(route.distance), formatDuration(route.duration)]
-            .filter(Boolean)
-            .join(" · ");
+          const meta = formatDistance(route.distance);
           return (
             <li key={route.id}>
               <button
