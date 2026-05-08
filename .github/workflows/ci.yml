@@ -30,4 +30,18 @@ jobs:
         run: npm run build
 
       - name: Test
-        run: npm test
+        run: |
+          set -o pipefail
+          npm test 2>&1 | tee test-output.txt
+
+      - name: Append test details to job summary
+        if: always()
+        run: |
+          {
+            echo ""
+            echo "### Tester som kjørte"
+            echo ""
+            echo '```'
+            cat test-output.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"

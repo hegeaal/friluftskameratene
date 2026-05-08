@@ -5,7 +5,7 @@ export default defineConfig({
     environment: "node",
     include: ["src/**/*.test.ts"],
     reporters: process.env.GITHUB_ACTIONS
-      ? ["default", "github-actions"]
+      ? ["verbose", "github-actions"]
       : ["default"],
   },
 });
