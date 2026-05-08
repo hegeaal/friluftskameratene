@@ -27,6 +27,15 @@ export default function Home() {
           </div>
         </div>
 
+        <Image
+          src="/logo-white.svg"
+          alt="Friluftskameratene-logo"
+          width={120}
+          height={120}
+          priority
+          className="mb-4 drop-shadow-[0_4px_24px_rgba(16,185,129,0.35)]"
+        />
+
         <h1 className="text-5xl font-bold tracking-tight mb-4">
           Friluftskameratene
         </h1>
