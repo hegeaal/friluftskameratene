@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+type ActivityLevel = "low" | "medium" | "high";
+type Grading = "EASY" | "MODERATE" | "TOUGH" | "VERY_TOUGH";
+
 interface Destination {
   name: string;
   lat: number;
@@ -12,12 +15,27 @@ interface Route {
   id: string;
   name: string;
   distance: number | null;
+  gradingAb: Grading | null;
   geojson: { type: string; coordinates: number[][] } | null;
 }
 
 interface TripRecommendationsProps {
+  activityLevel: ActivityLevel;
   onSelect: (destination: Destination) => void;
 }
+
+const GRADING_FILTER: Record<ActivityLevel, string> = {
+  low: "filter: { gradingAb: { eq: EASY } }",
+  medium: "filter: { gradingAb: { eq: MODERATE } }",
+  high: "filter: { gradingAb: { in: [TOUGH, VERY_TOUGH] } }",
+};
+
+const GRADING_LABEL: Record<Grading, { label: string; color: string }> = {
+  EASY: { label: "Enkel", color: "text-green-600" },
+  MODERATE: { label: "Middels", color: "text-blue-600" },
+  TOUGH: { label: "Krevende", color: "text-red-600" },
+  VERY_TOUGH: { label: "Ekstra krevende", color: "text-gray-900" },
+};
 
 function seasonLabel(): string {
   const month = new Date().getMonth() + 1;
@@ -33,23 +51,24 @@ function formatDistance(meters: number | null): string {
   return `${meters} m`;
 }
 
-
-export default function TripRecommendations({ onSelect }: TripRecommendationsProps) {
+export default function TripRecommendations({ activityLevel, onSelect }: TripRecommendationsProps) {
   const [routes, setRoutes] = useState<Route[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     fetch("/api/utno", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         query: `{
-          routes(paging: { first: 6 }) {
+          routes(paging: { first: 6 }, ${GRADING_FILTER[activityLevel]}) {
             edges {
               node {
                 id
                 name
                 distance
+                gradingAb
                 geojson
               }
             }
@@ -64,7 +83,7 @@ export default function TripRecommendations({ onSelect }: TripRecommendationsPro
         setRoutes(fetched.filter((r) => r.geojson?.coordinates?.length));
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [activityLevel]);
 
   function handleSelect(route: Route) {
     const coords = route.geojson?.coordinates;
@@ -76,7 +95,7 @@ export default function TripRecommendations({ onSelect }: TripRecommendationsPro
   return (
     <div>
       <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">
-        Populære ruter — {seasonLabel()}
+        Anbefalte ruter — {seasonLabel()}
       </p>
       {loading && (
         <div className="space-y-2">
@@ -86,11 +105,11 @@ export default function TripRecommendations({ onSelect }: TripRecommendationsPro
         </div>
       )}
       {!loading && routes.length === 0 && (
-        <p className="text-xs text-gray-400">Ingen ruter tilgjengelig.</p>
+        <p className="text-xs text-gray-400">Ingen ruter for dette nivået.</p>
       )}
       <ul className="space-y-1.5">
         {routes.map((route) => {
-          const meta = formatDistance(route.distance);
+          const grading = route.gradingAb ? GRADING_LABEL[route.gradingAb] : null;
           return (
             <li key={route.id}>
               <button
@@ -100,9 +119,10 @@ export default function TripRecommendations({ onSelect }: TripRecommendationsPro
                 <p className="text-sm font-medium text-gray-800 group-hover:text-emerald-800 leading-tight truncate">
                   {route.name}
                 </p>
-                {meta && (
-                  <p className="text-xs text-gray-400 mt-0.5">{meta}</p>
-                )}
+                <p className="text-xs text-gray-400 mt-0.5 flex gap-2">
+                  {grading && <span className={grading.color}>{grading.label}</span>}
+                  {formatDistance(route.distance)}
+                </p>
               </button>
             </li>
           );
