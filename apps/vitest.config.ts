@@ -4,5 +4,8 @@ export default defineConfig({
   test: {
     environment: "node",
     include: ["src/**/*.test.ts"],
+    reporters: process.env.GITHUB_ACTIONS
+      ? ["default", "github-actions"]
+      : ["default"],
   },
 });

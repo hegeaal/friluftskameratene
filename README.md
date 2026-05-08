@@ -1,5 +1,7 @@
 # friluftskameratene
 
+[![CI](https://github.com/hegeaal/friluftskameratene/actions/workflows/ci.yml/badge.svg)](https://github.com/hegeaal/friluftskameratene/actions/workflows/ci.yml)
+
 Trip planning app — Blank hackathon 2026.
 
 ## Team
