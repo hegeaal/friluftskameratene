@@ -143,6 +143,31 @@ export default function TripPage({ params }: { params: Promise<{ id: string }> }
           <ActivitySelector value={activityLevel} onChange={setActivityLevel} />
         </div>
 
+        {/* Hytter legend */}
+        <div className="flex-shrink-0 border-b border-gray-100 px-4 py-3">
+          <p className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1.5">
+            Hytter i kartet
+          </p>
+          <ul className="grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-gray-600">
+            <li className="flex items-center gap-1.5">
+              <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: "#16a34a" }} />
+              Betjent
+            </li>
+            <li className="flex items-center gap-1.5">
+              <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: "#d97706" }} />
+              Selvbetjent
+            </li>
+            <li className="flex items-center gap-1.5">
+              <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: "#6b7280" }} />
+              Ubetjent
+            </li>
+            <li className="flex items-center gap-1.5">
+              <span className="inline-block w-2.5 h-2.5 rounded-sm" style={{ background: "#7c3aed" }} />
+              Utleiehytte
+            </li>
+          </ul>
+        </div>
+
         {/* UT.no route recommendations */}
         <div className="flex-shrink-0 max-h-52 overflow-y-auto border-b border-gray-100 p-4">
           <TripRecommendations
