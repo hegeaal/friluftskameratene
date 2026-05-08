@@ -30,18 +30,24 @@ jobs:
         run: npm run build
 
       - name: Test
-        run: |
-          set -o pipefail
-          npm test 2>&1 | tee test-output.txt
+        run: npm test
 
       - name: Append test details to job summary
-        if: always()
+        if: always() && hashFiles('apps/test-results.json') != ''
         run: |
-          {
-            echo ""
-            echo "### Tester som kjørte"
-            echo ""
-            echo '```'
-            cat test-output.txt
-            echo '```'
-          } >> "$GITHUB_STEP_SUMMARY"
+          jq -r '
+            "### Tester som kjørte",
+            "",
+            (.testResults[] |
+              "#### `" + (.name | sub(".*/apps/"; "")) + "`",
+              "",
+              (.assertionResults[] |
+                "- " +
+                (if .status == "passed" then "✅" else "❌" end) +
+                " **" + (.ancestorTitles | join(" › ")) + "** — " +
+                .title +
+                " _(" + ((.duration * 100 | round) / 100 | tostring) + "ms)_"
+              ),
+              ""
+            )
+          ' test-results.json >> "$GITHUB_STEP_SUMMARY"
