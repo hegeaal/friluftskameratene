@@ -1,0 +1,60 @@
+name: Claude Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, ready_for_review, reopened]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'PR number to review'
+        required: true
+        type: number
+
+jobs:
+  claude-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Run Claude Code Review
+        id: claude-review
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          track_progress: ${{ github.event_name != 'workflow_dispatch' }}
+          prompt: |
+            Please review this PR and provide feedback using the GitHub review system.
+
+            Project context:
+            - Owner: ${{ github.repository_owner }}
+            - Repository: ${{ github.repository }}
+            - PR Number: ${{ github.event.pull_request.number || github.event.inputs.pr_number }}
+
+            Follow these steps to create a proper PR review:
+            1. Start a review: Use mcp__github__create_pending_pull_request_review to begin a pending review
+            2. Get diff information: Use mcp__github__get_pull_request_diff to understand the code changes and line numbers. If the PR has many changes, use pagination.
+            3. Add inline comments: Use mcp__github__add_comment_to_pending_review for specific feedback on particular lines
+            4. Submit the review: Use mcp__github__submit_pending_pull_request_review with event type "COMMENT" (not "REQUEST_CHANGES") to publish as a non-blocking review
+
+            Focus your review on:
+            - Code quality and best practices
+            - Potential bugs or security issues
+            - Performance considerations
+            - Test coverage
+
+            Use the repository's CLAUDE.md for guidance on style and conventions. Be constructive and helpful.
+            Always use inline comments for line-specific issues. Include an overall summary when submitting the review.
+
+          # MCP tools for proper PR reviews - see https://github.com/anthropics/claude-code-action/issues/60
+          claude_args: '--allowedTools "mcp__github__get_pull_request,mcp__github__create_pending_pull_request_review,mcp__github__add_comment_to_pending_review,mcp__github__submit_pending_pull_request_review,mcp__github__get_pull_request_diff"'
+        env:
+          MAX_MCP_OUTPUT_TOKENS: "50000"
