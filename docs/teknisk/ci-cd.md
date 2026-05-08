@@ -43,7 +43,7 @@ gh secret set CLAUDE_CODE_OAUTH_TOKEN \
 
 ### Badge-relevans
 
-- **GS4 — AI-driven Code review (15 p)**: oppfylt etter første reelle PR med meningsfulle endringer basert på Claude sin review.
+- **GS4 — AI-driven Code review (15 p)**: oppfylt når Claude har postet review på en PR med kodeendringer, og PR-en er fulgt opp med minst én konkret endring (kode eller dokumentasjon) basert på reviewen. Lenke til PR-en og review-kommentaren legges ved badge-innsendingen som dokumentasjon.
 - **TE2 — Streng review av AI-generert kode (3 eksempler)**: oppfylles automatisk når 3 PR-er har gått gjennom workflowen med oppfølging.
 - **TE4 — Code-review skill**: workflowen er fundamentet; kan utvides med custom prompts/skills senere.
 
