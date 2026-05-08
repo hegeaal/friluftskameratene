@@ -5,10 +5,10 @@ import { GeoJSON, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 
 interface Cabin {
-  id: string;
+  id: number;
   name: string;
   serviceLevel: string;
-  geojson: { type: string; coordinates: number[] };
+  geojson: { type: string; coordinates: number[] } | null;
 }
 
 interface Route {
@@ -28,12 +28,23 @@ const CABIN_COLORS: Record<string, string> = {
   RENTAL: "#7c3aed",
 };
 
-const cabinIcon = L.divIcon({
-  className: "",
-  html: `<div style="width:10px;height:10px;background:#16a34a;border:2px solid white;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,0.4)"></div>`,
-  iconSize: [10, 10],
-  iconAnchor: [5, 5],
-});
+const SERVICE_LEVEL_LABELS: Record<string, string> = {
+  STAFFED: "Betjent",
+  SELF_SERVICE: "Selvbetjent",
+  NO_SERVICE: "Ubetjent",
+  RENTAL: "Utleiehytte",
+};
+
+function cabinSvg(color: string) {
+  return `
+    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+      style="filter: drop-shadow(0 1px 2px rgba(0,0,0,0.45));">
+      <path d="M3 11 L12 3 L21 11 L21 21 L3 21 Z"
+        fill="${color}" stroke="white" stroke-width="1.6" stroke-linejoin="round"/>
+      <rect x="10" y="14" width="4" height="7" fill="white" opacity="0.85"/>
+    </svg>
+  `;
+}
 
 async function queryUtno(query: string) {
   const res = await fetch("/api/utno", {
@@ -58,8 +69,8 @@ export default function UTnoLayer({ center }: UTnoLayerProps) {
 
     Promise.all([
       queryUtno(`{
-        cabinsNear(input: { coordinates: { lat: ${lat}, lon: ${lon} }, distance: 30000 }) {
-          edges { node { id name serviceLevel geojson } }
+        cabinsNear(input: { coordinates: [${lon}, ${lat}], maxDistance: 30000 }) {
+          cabin { id name serviceLevel geojson }
         }
       }`),
       queryUtno(`{
@@ -68,7 +79,11 @@ export default function UTnoLayer({ center }: UTnoLayerProps) {
         }
       }`),
     ]).then(([cabinsData, routesData]) => {
-      setCabins(cabinsData.data?.cabinsNear?.edges?.map((e: { node: Cabin }) => e.node) ?? []);
+      setCabins(
+        cabinsData.data?.cabinsNear
+          ?.map((edge: { cabin: Cabin }) => edge.cabin)
+          .filter((c: Cabin | null): c is Cabin => Boolean(c)) ?? []
+      );
       setRoutes(routesData.data?.routes?.edges?.map((e: { node: Route }) => e.node) ?? []);
     });
   }, [center.lat, center.lon]);
@@ -81,17 +96,18 @@ export default function UTnoLayer({ center }: UTnoLayerProps) {
         const [lon, lat] = coords;
         const color = CABIN_COLORS[cabin.serviceLevel] ?? "#6b7280";
         const icon = L.divIcon({
-          className: "",
-          html: `<div style="width:10px;height:10px;background:${color};border:2px solid white;border-radius:50%;box-shadow:0 1px 4px rgba(0,0,0,0.4)"></div>`,
-          iconSize: [10, 10],
-          iconAnchor: [5, 5],
+          className: "fk-cabin-icon",
+          html: cabinSvg(color),
+          iconSize: [22, 22],
+          iconAnchor: [11, 20],
+          popupAnchor: [0, -18],
         });
         return (
           <Marker key={cabin.id} position={[lat, lon]} icon={icon}>
             <Popup>
               <strong>{cabin.name}</strong>
               <br />
-              {cabin.serviceLevel}
+              {SERVICE_LEVEL_LABELS[cabin.serviceLevel] ?? cabin.serviceLevel}
             </Popup>
           </Marker>
         );

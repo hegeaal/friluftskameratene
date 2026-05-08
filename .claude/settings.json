@@ -17,7 +17,6 @@
       "Bash(vercel teams *)",
       "Read(//Users/yngvarjohnsen/**)",
       "Read(//Users/yngvarjohnsen/.config/claude/**)",
-      "Bash(vercel env *)",
       "mcp__github__issue_write",
       "Bash(gh issue create --repo hegeaal/friluftskameratene --title 'F6: Pakkeliste med automatisk vær-trigger' --assignee hegeaal --body '## Time 2–3 · Dev A · Badge: F6 Pakkeliste \\(35p\\) *)",
       "Bash(gh issue create --repo hegeaal/friluftskameratene --title 'F7: Utgiftssporing og oppgjør' --assignee yngvar --body '## Time 2–3 · Dev B · Badge: F7 Utgiftssporing \\(35p\\) *)",
@@ -32,7 +31,8 @@
       "mcp__playwright__browser_console_messages",
       "mcp__playwright__browser_evaluate",
       "mcp__playwright__browser_click",
-      "mcp__github__update_pull_request"
+      "mcp__github__update_pull_request",
+      "mcp__chrome-devtools__navigate_page"
     ]
   }
 }
