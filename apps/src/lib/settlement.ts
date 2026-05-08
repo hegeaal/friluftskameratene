@@ -22,7 +22,11 @@ export function calculateSettlement(
   const balances = new Map<string, number>();
   for (const p of participants) balances.set(p, -share);
   for (const e of expenses) {
-    balances.set(e.paidBy, (balances.get(e.paidBy) ?? 0) + e.amount);
+    const current = balances.get(e.paidBy);
+    if (current === undefined) {
+      throw new Error(`Betaler "${e.paidBy}" er ikke i deltakerlisten`);
+    }
+    balances.set(e.paidBy, current + e.amount);
   }
 
   const creditors = [...balances.entries()]

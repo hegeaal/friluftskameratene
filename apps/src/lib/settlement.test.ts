@@ -28,4 +28,33 @@ describe("calculateSettlement", () => {
   it("returns empty list when there are no participants", () => {
     expect(calculateSettlement([], [])).toEqual([]);
   });
+
+  it("throws when paidBy is not in the participants list", () => {
+    expect(() =>
+      calculateSettlement(
+        ["Ola"],
+        [{ description: "Mat", amount: 100, paidBy: "Ukjent" }],
+      ),
+    ).toThrow(/Ukjent/);
+  });
+
+  it("returns no debts for a single participant who paid for themselves", () => {
+    expect(
+      calculateSettlement(
+        ["Ola"],
+        [{ description: "Mat", amount: 100, paidBy: "Ola" }],
+      ),
+    ).toEqual([]);
+  });
+
+  it("handles non-integer split with reasonable precision", () => {
+    const debts = calculateSettlement(
+      ["Ola", "Kari", "Per"],
+      [{ description: "Mat", amount: 100, paidBy: "Ola" }],
+    );
+
+    const total = debts.reduce((s, d) => s + d.amount, 0);
+    expect(total).toBeCloseTo(66.67, 1);
+    expect(debts.every((d) => d.to === "Ola")).toBe(true);
+  });
 });
