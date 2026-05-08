@@ -94,19 +94,31 @@
 - **GraphQL-felter:**
   - `cabins(paging, filter)` — søk/list 1 999 hytter; id, name, serviceLevel, geojson, beds
   - `cabin(id)` — full hytte-detalj inkl. senger, betjeningsstatus, fasiliteter
-  - `cabinsNear(input)` — hytter nær koordinat + radius
-  - `routes(paging, filter)` — søk/list 1 395 ruter; distanse, gradering, varighet, GeoJSON
+  - `cabinsNear(input: { coordinates: { lat, lon }, distance })` — hytter nær koordinat + radius (meter)
+  - `routes(paging, filter)` — søk/list 1 395 ruter; filtrerbare felter: `gradingAb`, `gradingBa`, `distance`
+  - `routesNear(input: { coordinates: [lon, lat], maxDistance })` — ruter nær punkt; returnerer `[{ route }]` (ikke edges)
   - `route(id)` — full rute med GeoJSON (inkl. høydeprofil), start, slutt, beskrivelse
   - `pois(paging, filter)` / `poisNear(input)` — utsiktspunkter, rasteplasser, POI
   - `areas(paging, filter)` — turområder med navn og grenser
-  - `search(query)` — fritekstsøk på tvers av hytter, ruter, POI
-- **Eksempel:**
+  - `search(input: { searchString })` — returnerer `SearchPayload { prioritizedResult, result }` (result er `[String!]!`, ikke Route-objekter direkte)
+- **Faktiske feltnavn på Route** (bekreftet via introspeksjon):
+  - `distance` (meter, Int) — filtrerbar server-side med `{ lte, gte, eq }`
+  - `gradingAb` / `gradingBa` — enum: `EASY`, `MODERATE`, `TOUGH`, `VERY_TOUGH`; filtrerbar med `{ eq: EASY }` eller `{ in: [TOUGH, VERY_TOUGH] }`
+  - `durationHoursAb` / `durationMinutesAb` / `durationDaysAb` — varighet; **ikke** filtrerbar server-side, filtrer client-side
+  - `name` — filtrerbar med `{ like: "%..." }`, men gir INTERNAL_SERVER_ERROR — unngå, filtrer client-side
+- **Eksempel — ruter nær Rondane med gradering:**
+  ```bash
+  curl -X POST "https://ut-backend-api-2-41145913385.europe-north1.run.app/internal/graphql" \
+    -H "Content-Type: application/json" -H "Origin: https://ut.no" \
+    -d '{"query":"{ routesNear(input: { coordinates: [9.72, 61.93], maxDistance: 30000 }) { route { id name distance gradingAb durationHoursAb geojson } } }"}'
+  ```
+- **Eksempel — hytter (eksisterende):**
   ```bash
   curl -X POST "https://ut-backend-api-2-41145913385.europe-north1.run.app/internal/graphql" \
     -H "Content-Type: application/json" -H "Origin: https://ut.no" \
     -d '{"query":"{ cabins(paging:{first:5}) { totalCount edges { node { id name serviceLevel geojson } } } }"}'
   ```
-- **Merk:** Sett `Origin` og `Content-Type`. GeoJSON: `Point` for hytter `[lon, lat, altitude]`, `LineString` for ruter. `serviceLevel`: `STAFFED`, `SELF_SERVICE`, `NO_SERVICE`, `RENTAL`. Cursor-basert paginering.
+- **Merk:** Sett `Origin` og `Content-Type`. GeoJSON: `Point` for hytter `[lon, lat, altitude]`, `LineString` for ruter. `serviceLevel`: `STAFFED`, `SELF_SERVICE`, `NO_SERVICE`, `RENTAL`. Cursor-basert paginering for `routes`/`cabins`, men `routesNear`/`cabinsNear` returnerer array direkte.
 
 ### 7. iNatur — kommersielle hytter
 
