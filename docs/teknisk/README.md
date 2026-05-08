@@ -6,3 +6,6 @@ Arkitektur, valg og integrasjoner.
 - `stack.md` — teknologivalg og begrunnelse
 - `integrasjoner.md` — Yr, UT.no, DNT, Entur osv.
 - `ai-agent.md` — agent-design, prompts, verktøy
+- [`ci-cd.md`](ci-cd.md) — GitHub Actions, Claude Code Review-workflow, secrets
+- [`deploy.md`](deploy.md) — deployment til Vercel
+- [`hackathon-api.md`](hackathon-api.md) — submission-API for badges
