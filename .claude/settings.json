@@ -4,7 +4,10 @@
       "mcp__github__list_commits",
       "Bash(git pull *)",
       "Bash(gh issue *)",
-      "Bash(gh api *)"
+      "Bash(gh api *)",
+      "Bash(supabase orgs *)",
+      "Bash(supabase projects *)",
+      "Bash(vercel env *)"
     ]
   }
 }

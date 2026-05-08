@@ -5,7 +5,11 @@ export default defineConfig({
     environment: "node",
     include: ["src/**/*.test.ts"],
     reporters: process.env.GITHUB_ACTIONS
-      ? ["default", "github-actions"]
+      ? [
+          "default",
+          "github-actions",
+          ["json", { outputFile: "test-results.json" }],
+        ]
       : ["default"],
   },
 });
