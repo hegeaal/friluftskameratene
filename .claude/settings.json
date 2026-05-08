@@ -2,7 +2,9 @@
   "permissions": {
     "allow": [
       "mcp__github__list_commits",
-      "Bash(git pull *)"
+      "Bash(git pull *)",
+      "Bash(gh issue *)",
+      "Bash(gh api *)"
     ]
   }
 }
