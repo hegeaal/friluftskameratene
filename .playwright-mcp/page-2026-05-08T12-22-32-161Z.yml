@@ -1,0 +1,39 @@
+- generic [ref=e1]:
+  - generic [ref=e12]:
+    - complementary [ref=e13]:
+      - generic [ref=e14]:
+        - heading "Planlegg ny tur" [level=1] [ref=e15]
+        - paragraph [ref=e16]: Søk etter sted eller klikk på kartet for å velge destinasjon.
+      - generic [ref=e17]:
+        - generic [ref=e18]: Søk etter sted
+        - textbox "F.eks. Rondane, Galdhøpiggen..." [active] [ref=e19]: Rondane
+        - list [ref=e20]:
+          - listitem [ref=e21] [cursor=pointer]: Rondane
+          - listitem [ref=e22] [cursor=pointer]: Rondane
+          - listitem [ref=e23] [cursor=pointer]: Rundane
+      - generic [ref=e24]:
+        - paragraph [ref=e25]: Aktivitetsnivå
+        - generic [ref=e26]:
+          - button "Lav" [ref=e27]
+          - button "Medium" [ref=e28]
+          - button "Høy" [ref=e29]
+      - generic [ref=e30]:
+        - button "Finn turer →" [disabled] [ref=e31]
+        - paragraph [ref=e32]: Velg destinasjon for å fortsette
+    - main [ref=e33]:
+      - generic [ref=e34]:
+        - generic:
+          - generic [ref=e35]:
+            - button "Zoom in" [ref=e36] [cursor=pointer]: +
+            - button "Zoom out" [ref=e37] [cursor=pointer]: −
+          - generic [ref=e38]:
+            - link "Leaflet" [ref=e39] [cursor=pointer]:
+              - /url: https://leafletjs.com
+              - img [ref=e40]
+              - text: Leaflet
+            - text: "| ©"
+            - link "Kartverket" [ref=e44] [cursor=pointer]:
+              - /url: https://kartverket.no
+  - button "Open Next.js Dev Tools" [ref=e7] [cursor=pointer]:
+    - img [ref=e8]
+  - alert [ref=e11]

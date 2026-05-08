@@ -16,7 +16,23 @@
       "Bash(vercel whoami *)",
       "Bash(vercel teams *)",
       "Read(//Users/yngvarjohnsen/**)",
-      "Read(//Users/yngvarjohnsen/.config/claude/**)"
+      "Read(//Users/yngvarjohnsen/.config/claude/**)",
+      "Bash(vercel env *)",
+      "mcp__github__issue_write",
+      "Bash(gh issue create --repo hegeaal/friluftskameratene --title 'F6: Pakkeliste med automatisk vær-trigger' --assignee hegeaal --body '## Time 2–3 · Dev A · Badge: F6 Pakkeliste \\(35p\\) *)",
+      "Bash(gh issue create --repo hegeaal/friluftskameratene --title 'F7: Utgiftssporing og oppgjør' --assignee yngvar --body '## Time 2–3 · Dev B · Badge: F7 Utgiftssporing \\(35p\\) *)",
+      "Bash(gh issue create --repo hegeaal/friluftskameratene --title 'TE1 + TE3: GitHub Actions CI + Vitest-tester' --assignee yngvar --body '## Time 3–4 · Dev B · Badges: TE1 CI grønt \\(25p\\) · TE3 Tester kjerneflyt \\(35p\\) *)",
+      "Bash(gh issue create --repo hegeaal/friluftskameratene --title 'Demo-polish + SE1 Full journey \\(200p\\)' --assignee hegeaal --assignee yngvar --body '## Time 3–4 · Begge · Badge: SE1 Full journey \\(200p\\) *)",
+      "mcp__github__issue_read",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_type",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_evaluate",
+      "mcp__playwright__browser_click",
+      "mcp__github__update_pull_request"
     ]
   }
 }
